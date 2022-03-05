@@ -1,5 +1,3 @@
-version: '3'
-
 volumes:
   document_data:
   document_log:
