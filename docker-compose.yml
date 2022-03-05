@@ -1,0 +1,51 @@
+version: '3'
+
+volumes:
+  document_data:
+  document_log:
+  app_data:
+
+services:
+  app:
+    container_name: app-server
+    image: nextcloud:fpm
+    restart: always
+    expose:
+      - '80'
+      - '9000'
+      - '443'
+    volumes:
+      - app_data:/var/www/html
+    depends_on:
+      - nextcloud_db
+
+  onlyoffice-document-server:
+    container_name: onlyoffice-document-server
+    image: onlyoffice/documentserver:latest
+    restart: always
+    expose:
+      - '80'
+      - '443'
+    volumes:
+      - document_data:/var/www/onlyoffice/Data
+      - document_log:/var/log/onlyoffice
+
+  nginx:
+    container_name: nginx-server
+    image: nginx
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - app_data:/var/www/html
+
+  nextcloud_db:
+    image: postgres:alpine
+    container_name: nextcloud_db
+    restart: always
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+    env_file:
+      - db.env
