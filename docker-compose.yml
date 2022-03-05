@@ -18,6 +18,13 @@ services:
       - app_data:/var/www/html
     depends_on:
       - nextcloud_db
+    environment:
+      - POSTGRES_HOST=nextcloud_db
+      - POSTGRES_PASSWORD=jde#Par#Next
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=ncuser
+    env_file:
+      - db.env
 
   onlyoffice-document-server:
     container_name: onlyoffice-document-server
