@@ -1,9 +1,20 @@
 version: '3'
+
 volumes:
   document_data:
   document_log:
   app_data:
 
+
+  nextcloud_db:
+    image: postgres:alpine
+    container_name: nextcloud_db
+    restart: always
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+    env_file:
+      - db.env
+      
 services:
   app:
     container_name: app-server
@@ -16,13 +27,12 @@ services:
       - app_data:/var/www/html
       - /usr/bin/nano:/usr/bin/nano
       - /lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu
-    depends_on:
-      - nextcloud_db
     environment:
       - POSTGRES_HOST=nextcloud_db
-      - POSTGRES_PASSWORD=jde#Par#Next
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=ncuser
+    env_file:
+      - db.env
+    depends_on:
+      - nextcloud_db
 
   onlyoffice-document-server:
     container_name: onlyoffice-document-server
@@ -44,16 +54,4 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /opt/certs:/opt/certs
       - app_data:/var/www/html
-
-  nextcloud_db:
-    image: postgres:alpine
-    container_name: nextcloud_db
-    restart: always
-    volumes:
-      - /var/lib/postgresql/data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_PASSWORD=jde#Par#Next
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=ncuser
-    depends_on:
-      - app
+      
