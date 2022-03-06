@@ -22,8 +22,6 @@ services:
       - POSTGRES_PASSWORD=jde#Par#Next
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=ncuser
-    env_file:
-      - db.env
 
   onlyoffice-document-server:
     container_name: onlyoffice-document-server
@@ -52,5 +50,7 @@ services:
     restart: always
     volumes:
       - /var/lib/postgresql/data:/var/lib/postgresql/data
-    env_file:
-      - db.env
+    environment:
+      - POSTGRES_PASSWORD=jde#Par#Next
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=ncuser
