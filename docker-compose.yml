@@ -12,8 +12,6 @@ services:
     restart: always
     volumes:
       - /var/lib/postgresql/data:/var/lib/postgresql/data
-    env_file:
-      - db.env
 
   app:
     container_name: app-server
@@ -28,8 +26,6 @@ services:
       - /lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu
     environment:
       - POSTGRES_HOST=nextcloud_db
-    env_file:
-      - db.env
     depends_on:
       - nextcloud_db
 
