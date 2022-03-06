@@ -4,7 +4,8 @@ volumes:
   document_data:
   document_log:
   app_data:
-
+      
+services:
   nextcloud_db:
     image: postgres:alpine
     container_name: nextcloud_db
@@ -13,8 +14,7 @@ volumes:
       - /var/lib/postgresql/data:/var/lib/postgresql/data
     env_file:
       - db.env
-      
-services:
+
   app:
     container_name: app-server
     image: nextcloud:fpm
@@ -53,4 +53,3 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /opt/certs:/opt/certs
       - app_data:/var/www/html
-      
