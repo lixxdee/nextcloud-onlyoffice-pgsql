@@ -12,7 +12,9 @@ services:
     restart: always
     volumes:
       - /var/lib/postgresql/data:/var/lib/postgresql/data
-
+    environment:
+      - POSTGRES_PASSWORD=jde#Par#Next
+      
   app:
     container_name: app-server
     image: nextcloud:fpm
