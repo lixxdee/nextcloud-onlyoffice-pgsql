@@ -5,7 +5,6 @@ volumes:
   document_log:
   app_data:
 
-
   nextcloud_db:
     image: postgres:alpine
     container_name: nextcloud_db
