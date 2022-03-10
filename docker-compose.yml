@@ -4,7 +4,7 @@ volumes:
   document_data:
   document_log:
   app_data:
-      
+
 services:
   nextcloud_db:
     image: postgres:alpine
@@ -16,18 +16,17 @@ services:
       - POSTGRES_PASSWORD=jde#Par#Next
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=ncuser
-      
+
   app:
     container_name: app-server
-    image: nextcloud:fpm
+    image: nextcloud:23.0.2-fpm
     restart: always
     expose:
       - '9000'
+      - '80'
       - '443'
     volumes:
       - app_data:/var/www/html
-      - /usr/bin/nano:/usr/bin/nano
-      - /lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu
     environment:
       - POSTGRES_HOST=nextcloud_db
       - POSTGRES_PASSWORD=jde#Par#Next
@@ -51,6 +50,7 @@ services:
     image: nginx
     restart: always
     ports:
+      - 80:80
       - 443:443
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
